@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR Code Generator</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="glass-card">
+    <h1>QR Code Generator</h1>
+    <p>Generate stunning QR codes instantly</p>
+
+    <form method="POST">
+        <input type="text" name="data" placeholder="Enter text or URL" required>
+        <button type="submit">Generate QR</button>
+    </form>
+
+    {% if qr_filename %}
+    <div class="result fade-in">
+        <div class="qr-box">
+            <img src="/static/qr_codes/{{ qr_filename }}" alt="Generated QR Code">
+        </div>
+        <a href="/download/{{ qr_filename }}">Download</a>
+    </div>
+    {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<div class="signature">
+    © A_Sam_Sarvesh<br>
+    Made with <span>❤</span> in India
+</div>
+
+</body>
+</html>
