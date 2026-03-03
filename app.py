@@ -4,14 +4,12 @@ import os
 from datetime import datetime
 
 app = Flask(__name__)
-QR_FOLDER = os.path.join("static", "qr_codes")
-
-if not os.path.exists(QR_FOLDER):
-    os.makedirs(QR_FOLDER)
+QR_FOLDER = "/tmp/qr_codes"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     qr_filename = None
+    os.makedirs(QR_FOLDER, exist_ok=True)
     if request.method == "POST":
         data = request.form.get("data")
         if data:
@@ -30,6 +28,10 @@ def index():
             img.save(os.path.join(QR_FOLDER, qr_filename))
 
     return render_template("index.html", qr_filename=qr_filename)
+
+@app.route("/qr/<filename>")
+def serve_qr(filename):
+    return send_file(os.path.join(QR_FOLDER, filename), mimetype="image/png")
 
 @app.route("/download/<filename>")
 def download(filename):
